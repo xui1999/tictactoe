@@ -32,8 +32,6 @@ t1 = Thread.new {
     if ch == 'p' || (ch == ' ' && cursor_x == 4 && cursor_y == 4)
       cursor_x = 2
       cursor_y = 2
-      board_x = 5
-      board_y = 5
 
       board = [[' ', ' ', ' '],
               [' ', ' ', ' '],
