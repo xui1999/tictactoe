@@ -14,10 +14,11 @@ board_y = 5
 board = [[' ', ' ', ' '],
          [' ', ' ', ' '],
          [' ', ' ', ' ']]
+
 current_player = 'x'
+winner = ''
 
 win_conditions = ['012', '345', '678', '036', '147', '258', '048', '246']
-winner = ''
 
 t1 = Thread.new {
   while ch != 'f'
@@ -28,14 +29,29 @@ t1 = Thread.new {
       break
     end
 
+    if ch == 'p' || (ch == ' ' && cursor_x == 4 && cursor_y == 4)
+      cursor_x = 2
+      cursor_y = 2
+      board_x = 5
+      board_y = 5
+
+      board = [[' ', ' ', ' '],
+              [' ', ' ', ' '],
+              [' ', ' ', ' ']]
+
+      current_player = 'x'
+      winner = ''
+      next
+    end
+
     if ch == ' ' && winner == ''
       if cursor_x > 0 && cursor_x < board_x - 1 && cursor_y > 0 && cursor_y < board_y - 1 && board[cursor_y - 1][cursor_x - 1] == ' '
         board[cursor_y - 1][cursor_x - 1] = current_player
 
-	win_conditions.each do |win_condition|
+	      win_conditions.each do |win_condition|
 
           found = ''
-	  win_condition.split('').map(&:to_i).each do |n|
+	        win_condition.split('').map(&:to_i).each do |n|
             y = (n / 3).floor
             x = n % 3
             found += board[y][x]
@@ -89,6 +105,8 @@ t2 = Thread.new {
           print "\e[48m"
         elsif x == 4 && y == 0
           print "\e[41m"
+        elsif x == 4 && y == 4
+          print "\e[42m"
         else
           print "\e[47m"
         end
@@ -117,7 +135,7 @@ t2 = Thread.new {
       print "\n\r"
     end
 
-    sleep(0.1)
+    sleep(0.2)
   end
 }
 
